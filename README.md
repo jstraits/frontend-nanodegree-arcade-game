@@ -1,6 +1,18 @@
-frontend-nanodegree-arcade-game
-===============================
+Frogger Clone Project
 
-Students should use this rubric: https://www.udacity.com/course/viewer#!/c-ud015/l-3072058665/m-3072588797
+Instructions:
 
-for self-checking their submission.
+In order to play the game, download the files. Then open index.html and the game will appear.
+
+How to Play:
+
+Use arrow keys to move the boy player character.
+
+'Up' for up
+'Down' for down
+'Left' for left
+'Right' for right
+
+Objective:
+
+Avoid the enemy bugs and try to reach the water on top of the screen.
