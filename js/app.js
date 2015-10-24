@@ -1,11 +1,16 @@
 // Enemies our player must avoid
 var Enemy = function() {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
+	
+	// array of starting positions
+	this.startY = [60, 140, 220];
+	this.x = -100;
+	//randomizes enemy starting row
+	this.y = this.startY[Math.floor(Math.random() * this.startY.length)];
+	this.sprite = 'images/enemy-bug.png';
+	//array of different enemy speeds
+	this.speed = [175, 225, 300, 425];
+	//randomizes each enemy speed
+	this.enemySpeed = this.speed[Math.floor(Math.random() * this.speed.length)];
 }
 
 // Update the enemy's position, required method for game
@@ -14,6 +19,14 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+	this.x = this.x + (this.enemySpeed * dt);
+	
+	if (this.x > 505) {
+		this.x = -100;
+		this.y = this.startY[Math.floor(Math.random() * this.startY.length)];
+    	this.enemySpeed = this.speed[Math.floor(Math.random() * this.speed.length)];
+	}
+	checkCollisions();
 }
 
 // Draw the enemy on the screen, required method for game
@@ -24,12 +37,62 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+var Player = function() {
+	this.x = 200;
+	this.y = 400;
+	this.sprite = 'images/char-boy.png';
+}
+
+Player.prototype.update = function() {}
+
+Player.prototype.reset = function() {
+	this.x = 200;
+	this.y = 400;
+}
+
+Player.prototype.render = function (){
+	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
+Player.prototype.handleInput = function (movement) {
+	//sets up boundaries so player cannot move off canvas	
+	if (movement === 'left' && this.x > 0) {
+		this.x = this.x - 100;
+	}
+	if (movement === 'right'&& this.x < 400) {
+		this.x = this.x + 100;
+	}
+	if (movement === 'up' && this.y > 0) {
+		this.y = this.y - 85;
+	}
+	if (movement === 'down' && this.y < 400) {
+		this.y = this.y + 85;
+	}
+	//when player reaches water
+	if (this.y < 50) {
+		player.reset();
+	}
+	
+}
+
+function checkCollisions(){
+    for (var i = 0; i < allEnemies.length; i++) {
+        if ((allEnemies[i].x) <= player.x + 30 &&
+            (allEnemies[i].x + 30) >= (player.x) &&
+            (allEnemies[i].y)<= player.y + 30 &&
+            (allEnemies[i].y + 30) >= (player.y)) {
+          player.reset();
+        }
+    }
+}
 
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+var allEnemies = [new Enemy(), new Enemy(), new Enemy()];
 
+var player = new Player();
 
 
 // This listens for key presses and sends the keys to your
