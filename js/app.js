@@ -71,7 +71,7 @@ Player.prototype.handleInput = function (movement) {
 	}
 	//when player reaches water
 	if (this.y < 50) {
-		player.reset();
+		this.reset();
 	}
 	
 };
